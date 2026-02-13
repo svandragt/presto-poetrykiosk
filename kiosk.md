@@ -25,7 +25,7 @@ A future enhancement will add a proximity sensor to pause/blank the display when
 
 ### Inclusion Rules
 - On boot, build the playlist by scanning `/data/poems` for `*.json`.
-- For each poem `<id>.json`, include only if the corresponding photo exists:
+- For each poem `<id>.json`, include regardless if the corresponding photo exists:
   - `/data/photos/<id>.jpg`
 - If a photo exists without a matching poem JSON, it is ignored (photos are not discovered independently).
 
@@ -70,7 +70,7 @@ Rules:
 - Margins:
   - 10px on all sides (symmetric)
 - Line spacing:
-  - 1px between lines (configurable in code)
+  - 2px between lines (configurable in code)
 - Title:
   - rendered at 2× scale relative to body (configurable)
   - remains visible on every page
@@ -95,9 +95,9 @@ Rules:
 
 ### Timings
 - Dwell time:
-  - 60 seconds per poem (global default)
+  - 30 seconds per poem (global default)
 - Fade durations:
-  - 1 second fade-in, 1 second fade-out
+  - 2 second fade-in, 2 second fade-out
 - Easing:
   - smoothstep (“ease in/out”)
 
@@ -112,13 +112,13 @@ Rules:
 - During display:
   - touch advances to next page
   - on last page, wraps back to first page
-  - any touch resets the 60-second timer and prevents an imminent fade
+  - any touch resets the timer and prevents an imminent fade
 
 ## Transitions
 - Transition mechanism: backlight fade (uniform fade is acceptable).
 - Brightness scale:
   - config expressed as 0–100%
-  - device API may require 0.0–1.0 float; conversion performed at the boundary.
+  - device API requires 0.0–1.0 float; conversion performed at the boundary.
 
 ### Extensibility
 - Transitions are implemented behind a swappable interface (e.g., `Transition.start()` / `Transition.update()`), so alternative fade algorithms can be substituted later without rewriting the app state machine.
@@ -131,7 +131,7 @@ Core states:
 - `FADE_OUT`: backlight fade from target → 0; then advance to next poem and return to `LOAD`
 
 ## Error Handling
-- Missing photo for a poem id: skip poem
+- Missing photo for a poem id: show poem on black background
 - Invalid JSON or missing keys/types: skip poem and log
 - If no valid poem/photo pairs exist:
   - show black screen with a message (and remain idle)
