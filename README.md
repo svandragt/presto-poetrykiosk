@@ -1,1 +1,1 @@
-[spec](kiosk.nmd)
+[spec](kiosk.md)
